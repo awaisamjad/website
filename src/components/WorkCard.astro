@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+const { work } = Astro.props as {
+	work: CollectionEntry<"work">;
+};
+---
+
+<section
+	class="bg-secondary border-accent rounded-2xl p-6 my-8 max-w-3xl mx-auto shadow-lg font-sans"
+>
+	<h1>
+		{work.id}
+	</h1>
+
+	{
+		work.data.tags && (
+			<p class="">
+				<strong>Tags:</strong>{" "}
+				<span class="italic">{work.data.tags.join(", ")}</span>
+			</p>
+		)
+	}
+
+	<a href={`/works/${work.slug}/`}> View work → </a>
+</section>

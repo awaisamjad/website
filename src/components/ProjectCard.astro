@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+const { project } = Astro.props as {
+	project: CollectionEntry<"projects">;
+};
+---
+
+<section
+	class="bg-secondary border-accent rounded-2xl p-6 my-8 max-w-3xl mx-auto shadow-lg font-sans"
+>
+	<h1>
+		{project.data.title}
+	</h1>
+
+	{project.data.description && <p>{project.data.description}</p>}
+
+	{
+		project.data.tags && (
+			<p class="">
+				<strong>Tags:</strong>{" "}
+				<span class="italic">{project.data.tags.join(", ")}</span>
+			</p>
+		)
+	}
+
+	<a href={`/projects/${project.slug}/`}> View Project → </a>
+</section>

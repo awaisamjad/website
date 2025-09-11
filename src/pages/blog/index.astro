@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+---
+
+<BaseLayout>
+	<h1>Blog Posts</h1>
+	<ul>
+		{posts.map((post) => <BlogCard post={post} />)}
+	</ul>
+</BaseLayout>

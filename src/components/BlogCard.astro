@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+const { blog } = Astro.props as {
+	blog: CollectionEntry<"blog">;
+};
+---
+
+<section
+	class="bg-secondary border-accent rounded-2xl p-6 my-8 max-w-3xl mx-auto shadow-lg font-sans"
+>
+	<h1>
+		{blog.data.title}
+	</h1>
+
+	{blog.data.description && <p>{blog.data.description}</p>}
+
+	{
+		blog.data.tags && (
+			<p class="">
+				<strong>Tags:</strong>{" "}
+				<span class="italic">{blog.data.tags.join(", ")}</span>
+			</p>
+		)
+	}
+
+	<a href={`/blogs/${blog.slug}/`}> View blog → </a>
+</section>

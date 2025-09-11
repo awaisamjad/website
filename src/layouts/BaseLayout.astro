@@ -1,0 +1,77 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/favicon.ico" />
+		<title>Astro Basics</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<div class="nav-container" aria-label="Main Navigation">
+					<div class="nav-links">
+						<a href="/" class="nav-link" data-navigo>Home</a>
+						<a href="/blog" class="nav-link" data-navigo>Blog</a>
+						<a href="/projects" class="nav-link" data-navigo
+							>Projects</a
+						>
+						<a href="/work" class="nav-link" data-navigo>Work</a>
+					</div>
+					<aside class="social-links" aria-label="Social Media">
+						<a
+							href="https://www.linkedin.com/in/awais-amjad-dev/"
+							class="social-link"
+							target="_blank"
+						>
+							<img
+								src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg"
+								alt="Linkedin"
+								width="24"
+								height="24"
+							/>
+						</a>
+						<a
+							href="https://codeberg.org/awaisamjad"
+							class="social-link"
+							target="_blank"
+						>
+							<img
+								src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/codeberg.svg"
+								alt="Codeberg"
+								width="24"
+								height="24"
+							/>
+						</a>
+						<a
+							href="mailto:awais@awais.me"
+							class="social-link"
+							target="_blank"
+						>
+							<img
+								src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/gmail.svg"
+								alt="Email"
+								width="24"
+								height="24"
+							/>
+						</a>
+					</aside>
+				</div>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer>
+			<blockquote>
+				To do a thing today, and the same tomorrow. Gathering is the
+				essence of knowledge<br />Thus one may achieve wisdom. For
+				streams are but the gatherings of drops
+			</blockquote>
+		</footer>
+	</body>
+</html>
