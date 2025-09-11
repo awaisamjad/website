@@ -1,0 +1,76 @@
+---
+// src/pages/404.astro
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Page Not Found</title>
+		<style>
+			:root {
+				--bg-secondary: #f9f9f9;
+				--text-color: #333;
+				--primary-color: #4f46e5;
+				--accent-color: #f59e0b;
+				--border-color: #ddd;
+			}
+
+			body {
+				margin: 0;
+				font-family: system-ui, sans-serif;
+				background: var(--bg-secondary);
+				color: var(--text-color);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+			}
+
+			.container {
+				text-align: center;
+				padding: 2rem;
+				border-radius: 1rem;
+				border: 1px solid var(--border-color);
+				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+				background: var(--bg-secondary);
+				max-width: 500px;
+			}
+
+			h1 {
+				font-size: 6rem;
+				font-weight: bold;
+				color: var(--primary-color);
+				margin: 0;
+			}
+
+			p {
+				margin-top: 1rem;
+				font-size: 1.25rem;
+			}
+
+			a {
+				display: inline-block;
+				margin-top: 1.5rem;
+				padding: 0.75rem 1.5rem;
+				border-radius: 1rem;
+				background: var(--primary-color);
+				color: white;
+				font-weight: 500;
+				text-decoration: none;
+				transition: background 0.3s;
+			}
+
+			a:hover {
+				background: var(--accent-color);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>404</h1>
+			<p>Oops! The page you’re looking for doesn’t exist.</p>
+			<a href="/">Go Back Home</a>
+		</div>
+	</body>
+</html>

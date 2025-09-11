@@ -1,5 +1,15 @@
 import { defineCollection, z } from "astro:content";
 
+function formatDate(date: Date): string {
+	const options: Intl.DateTimeFormatOptions = {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	};
+
+	return date.toLocaleDateString("en-GB", options);
+}
+
 const blog = defineCollection({
 	schema: z.object({
 		title: z.string(),
@@ -7,8 +17,8 @@ const blog = defineCollection({
 		tags: z.string().array().optional(),
 		readingTime: z.number().optional(),
 		relatedPosts: z.string().array().optional(),
-		createdAt: z.string().transform((str) => new Date(str)),
-		modifiedAt: z.string().transform((str) => new Date(str)),
+		createdAt: z.string().transform((str) => formatDate(new Date(str))),
+		modifiedAt: z.string().transform((str) => formatDate(new Date(str)))
 	}),
 });
 
@@ -28,8 +38,8 @@ const work = defineCollection({
 		title: z.string(),
 		company: z.string().optional(),
 		tags: z.string().array().optional(),
-		startDate: z.string().transform((date) => new Date(date)),
-		endDate: z.string().transform((date) => new Date(date)),
+		startDate: z.string().transform((str) => formatDate(new Date(str))),
+		endDate: z.string().transform((str) => formatDate(new Date(str))),
 		location: z.string().optional(),
 		liveUrl: z.string().url().optional(),
 	}),

@@ -10,17 +10,19 @@ const { work } = Astro.props as {
 	class="bg-secondary border-accent rounded-2xl p-6 my-8 max-w-3xl mx-auto shadow-lg font-sans"
 >
 	<h1>
-		{work.id}
+		{work.data.title} @ {work.data.company}
 	</h1>
+
+	<h4>{work.data.startDate} - {work.data.endDate}</h4>
 
 	{
 		work.data.tags && (
 			<p class="">
-				<strong>Tags:</strong>{" "}
+				<strong>Key Technologies:</strong>{" "}
 				<span class="italic">{work.data.tags.join(", ")}</span>
 			</p>
 		)
 	}
 
-	<a href={`/works/${work.slug}/`}> View work → </a>
+	<a href={`/work/${work.slug}/`}> View work → </a>
 </section>

@@ -4,12 +4,11 @@ import WorkCard from "../../components/WorkCard.astro";
 import { getCollection } from "astro:content";
 
 const posts = await getCollection("work");
-const filenames = posts.map((post) => post.id);
 ---
 
 <BaseLayout>
 	<h1>Work</h1>
 	<ul>
-		{posts.map((post) => <WorkCard post={post} />)}
+		{posts.map((post) => <WorkCard work={post} />)}
 	</ul>
 </BaseLayout>
