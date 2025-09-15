@@ -26,7 +26,8 @@ export async function getStaticPaths() {
 <BaseLayout title={post.data.title}>
 	<article>
 		<h1>{post.data.title}</h1>
-		<p>{post.data.modifiedAt}</p>
+		<p><strong>Created At:</strong> {post.data.createdAt}</p>
+		<p><strong>Last Modified:</strong> {post.data.modifiedAt}</p>
 		<Content />
 	</article>
 </BaseLayout>

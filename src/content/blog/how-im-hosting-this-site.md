@@ -1,30 +1,36 @@
 ---
-title: How I'm hosting this website
-description: An overview of the process and technologies I use to build and host my website
+title: How I used to make this site
+description: An overview of the process and technologies I use to create, build and host my website
 tags:
     - Nginx
     - SSG
     - Hetzner
 readingTime: 5
-relatedPosts:
-    - /projects/shout
 createdAt: 15 July 2025
-modifiedAt: 02 September 2025
+modifiedAt: 12 September 2025
 ---
+My deployment stack for this site has changed a lot. I started with a Hugo site on Netlify, then switched to Astro because its documentation felt clearer. After that, I experimented with building my own Static Site Generator (SSG), before eventually returning back to Astro which I hope will remain long-term choice.
 
-I self host this website; I bought a server from Hetzner and a domain from Cloudflare. 
+At first, both Hugo and Astro felt like overkill for a simple site, so I tried going back to plain HTML, CSS, and JavaScript . But I quickly found myself missing the conveniences that frameworks provide (not having to write the same navbar HTML on **EVERY** page for example), which led me to explore lightweight SSG's. While researching, I thought to myself that a lot of what I was looking for wasn't that hard to build myself so thats what I ended up doing. I decided to build my own SSG. The goal was to keep it lightweight, relying on a `justfile` to run commands and existing tools like `pandoc` and `rsync` to handle building and deployment.
 
-I used to use Astro as my framework but i found it to be a bit overkill for a simple site so I decided to switch to plain HTML, CSS and JS. However there are a lot of niceites you get from frameworks that I miss which led me to build my own Static Site Generator (SSG). I thought it would be a good challenge to just use linux utils so I used the `just` command runner.
+<details>
+<summary>View the code</summary>
 
-```justfile
-server_ip := env_var(MY_SERVER_IP)
+```make
+server_ip := env_var("MY_SERVER_IP")
+set shell := ["bash", "-cu"]
 
-
-# Default recipe - build all HTML files
-default: build
-
-# Build all HTML files from markdown
-build: clean setup-dirs copy-assets blog projects work
+# Takes a markdown file and turns it into an HTML file
+build-page file filename section *args="":
+    pandoc "{{ file }}" \
+    -o "dist/{{ section }}/{{ filename }}.html" \ # where to put the HTML file
+    --standalone \ 
+    --template=templates/pages/{{ section }}.html \ # What template to use
+    --css=style.css \ # what styling to use
+    --include-before-body=templates/partials/navbar.html \ # include a navbar
+    --include-after-body=templates/partials/footer.html \ # include a footer
+    --metadata pagetitle={{ filename }} \ # make the title the filename
+    --lua-filter=lua-scripts/anchor.lua # adds a link on every header
 
 # Clean the dist directory
 clean:
@@ -32,157 +38,103 @@ clean:
 
 # Create the directory structure and copy assets
 setup-dirs:
+    mkdir -p dist
     mkdir -p dist/blog
     mkdir -p dist/projects
     mkdir -p dist/work
 
 # Copy CSS and other assets to dist
 copy-assets:
-    cp style.css dist/style.css
+    cp style.css dist/
+    cp -r images dist/
+    cp -r components dist/
+    cp -r content/projects/images dist/projects/
+    cp -r content/work/images dist/work/
+    cp -r content/blog/images dist/blog/
+    cp favicon.ico dist/
 
 # Generic function to convert markdown files in a section
-convert-section section css_path=../style.css:
+convert-section section css_path="style.css":
     #!/usr/bin/env bash
     set -euo pipefail
-    for file in content/{{section}}/*.md; do
-        filename=$(basename $file .md)
-        pandoc $file -o dist/{{section}}/${filename}.html \
-            --standalone \
-            --template=template.html \
-            --metadata pagetitle=${filename} \
-            --css={{css_path}}
+    for file in content/{{ section }}/*.md; do
+        filename=$(basename "$file" .md)
+        if [[ "$filename" != ".archetype" && "$filename" != "index" ]] ; then
+            just build-page "$file" "$filename" {{ section }}
+        fi
+        if [ "$filename" == "index" ] ; then
+            pandoc "$file" \
+                -o "dist/{{ section }}/index.html" \
+                --standalone \
+                --css=../style.css \
+                --include-before-body=templates/partials/navbar.html \
+                --include-after-body=templates/partials/footer.html \
+                --metadata pagetitle={{ section }} \
+                --template=templates/pages/section-index.html
+        fi
     done
 
 # Convert blog markdown files to HTML
 blog:
-    just convert-section blog ../style.css
+    just convert-section blog "style.css"
 
 # Convert projects markdown files to HTML
 projects:
-    just convert-section projects ../style.css
+    just convert-section projects "style.css"
 
 # Convert work markdown files to HTML
 work:
-    just convert-section work ../style.css
+    just convert-section work "style.css"
 
-# Generic function to create an index page for a section
-create-section-index section title css_path=./style.css:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    temp_file=temp_{{section}}_index.md
-    echo # {{title}} > $temp_file
-
-    for file in content/{{section}}/*.md; do
-        [ -f $file ] || continue
-        filename=$(basename $file .md)
-        title_line=$(head -n 1 $file | sed 's/^# //')
-        if [ -z $title_line ]; then
-            title_line=$filename
-        fi
-        echo - [$title_line]($filename.html) >> $temp_file
-    done
-    cp {{css_path}} ./dist/{{section}}/
-    pandoc $temp_file -o dist/{{section}}/index.html --css=./style.css --standalone --metadata pagetitle={{title}} --template=template.html
-    rm $temp_file
-
-# Generate index pages for each section
-indexes css_path=./style.css:
-    just create-section-index blog Blog {{css_path}}
-    just create-section-index projects Projects {{css_path}}
-    just create-section-index work Work {{css_path}}
-
-# Generate main index page from index.md
+# Generate main index page
 main-index:
     #!/usr/bin/env bash
-    if [ -f content/index.md ]; then
-        pandoc content/index.md -o dist/index.html --standalone --metadata pagetitle=Home --css=style.css --template=template.html
-
+    if [ -f "content/index.md" ]; then
+        pandoc content/index.md -o dist/index.html --standalone --metadata pagetitle="Home" --css="style.css" --template=templates/pages/base.html --include-before-body=templates/partials/navbar.html --include-after-body=templates/partials/footer.html
     else
-        echo index.md not found, creating a basic one...
+        echo "index.md not found, creating a basic one..."
         cat > content/index.md << EOF
-    Add Content here ...
+        This page is a work in progess... [home](https://awais.me)
     EOF
-        pandoc content/index.md -o dist/index.html --standalone --metadata pagetitle=Home --css=style.css --template=template.html
-
+        pandoc content/index.md -o dist/index.html --standalone --metadata pagetitle="Home" --css="style.css" --template=templates/pages/base.html --include-before-body=templates/partials/navbar.html --include-after-body=templates/partials/footer.html
     fi
 
-# Build everything including indexes
-build-all: build indexes main-index
+# Create a new blog, project, work page
+new section title:
+    cp content/{{ section }}/.archetype.md content/{{ section }}/{{ title }}.md
 
-# Watch for changes and rebuild (requires watchexec)
+# Build everything
+build: setup-dirs copy-assets blog projects work main-index
+    # indexes
+
+# Watch for changes and rebuild
 watch:
-    watchexec -e md -i dist -- just build-all
+    cd content && reflex --regex='\.md$' just build
 
 # Serve the site locally
 serve:
     cd dist && live-server .
 
-deploy: build-all
-    rsync -azP --delete ./dist/ awais@{{server_ip}}:/home/awais/website
+dev:
+    just watch & just serve & wait
 
-# Build and serve
-dev: build-all serve
+deploy: build
+    rsync -azP --delete dist/ awais@{{ server_ip }}:/home/awais/website
 ```
+</details>
 
 
-Running this command generates a dist folder with the output files.
-```bash
-just build-all
-```
 
-The project structure is:
+However, adding new features to my custom SSG quickly became tiresome. Often something would break, and the directory structure constantly needed reworking. While I learned a lot from the process, the project wasn’t sustainable in the long run. That’s when I decided to move back to `Astro`, but now I carry forward many of the lessons and approaches I had picked up along the way, especially how I deploy. 
 
-```bash
-.
-├── content # Create the content here
-│   ├── index.md
-│   ├── blog
-│   │   ├── blog1.md
-│   │   └── ...
-│   ├── projects
-│   │   ├── project1.md
-│   │   └── ...
-│   └── work
-│   │   ├── work1.md
-│   │   └── ...
-├── dist # Output folder (contains the html files)
-│   ├── index.md
-│   ├── blog
-│   │   ├── blog1.md
-│   │   ├── style.css
-│   │   └── ...
-│   ├── projects
-│   │   ├── project1.md
-│   │   ├── style.css
-│   │   └── ...
-│   └── work
-│   │   ├── work1.md
-│       └── style.css
-│   │   └── ...
-│   ├── style.css
-│   └── work
-│       ├── acument.html
-│       ├── index.html
-├── draft # Draft Content
-│   ├── home-server.md
-│   └── linux-setup.md
-├── images
-│   ├── email.svg
-│   ├── github.svg
-│   └── linkedin.svg
-├── justfile
-├── style.css
-└── template.html # Base template all other html files inherit from (contains the navbar, footer etc)
-```
-
-
-To upload the site, I use rsync to sync only the changed files. Example:
+On my server, I keep a website folder that holds the live site. Whenever I build locally, I upload the new build and replace the contents of that folder. Initially, this meant deleting everything and copying over the fresh files, but in practice many files (like `styles.css`) don’t change often, or only change slightly. To optimise this, I now use `rsync`, which only updates the files that actually need it which makes deployments faster and more efficient.
 
 ```bash
-just deploy
+rsync -azP --delete dist/ awais@MY_SERVER_IP:/home/awais/website
 ```
 
-For my main site (awais.me) I use `nginx` as my http server for its stability however you can also view (custom.awais.me) to view the site served by my own custom built server [Volk](/projects/volk). It's basic but functional, and I plan to improve it over time.
+I then use `nginx` as my http server which serves the website
 
-For Volk, still use Nginx, but only as a reverse proxy. Volk runs on port 6543, while nginx listens on port 80 and forwards incoming traffic to Volk. This avoids having to reconfigure Volk for port 80.
+<!-- For my main site (awais.me) I use `nginx` as my http server for its stability however you can also view (custom.awais.me) to view the site served by my own custom built server [Volk](/projects/volk). It's basic but functional, and I plan to improve it over time. -->
+<!---->
+<!-- For Volk, still use Nginx, but only as a reverse proxy. Volk runs on port 6543, while nginx listens on port 80 and forwards incoming traffic to Volk. This avoids having to reconfigure Volk for port 80. -->

@@ -62,6 +62,51 @@ footer {
 	justify-content: center;
 }
 
+details {
+	display: flex;
+	margin-bottom: 2rem;
+	color: var(--primary-color);
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+/* Hide default marker */
+details summary {
+	list-style: none;
+	cursor: pointer;
+}
+
+details summary::-webkit-details-marker {
+	display: none;
+}
+
+/* Add a little icon rotation */
+details summary::after {
+	content: "▶";
+	display: inline-block;
+	margin-left: 0.5em;
+	transition: transform 0.3s ease;
+}
+
+details[open] summary::after {
+	transform: rotate(90deg);
+}
+
+/* Animate the content inside */
+/* details>*:not(summary) { */
+/* 	max-height: 0; */
+/* 	overflow: hidden; */
+/* 	transition: max-height 0.4s ease, opacity 0.4s ease; */
+/* 	opacity: 0; */
+/* } */
+
+/* details[open]>*:not(summary) { */
+/* 	max-height: 500px; */
+/* 	/* big enough to fit content */
+*/
+/* 	opacity: 1; */
+/* } */
+
 .work-meta {
 	background: var(--bg-secondary);
 	border: 1px solid var(--border-color);
@@ -249,6 +294,9 @@ code {
 }
 
 pre {
+	max-width: 100%;
+	white-space: pre-wrap;
+	word-wrap: break-word;
 	background-color: var(--bg-secondary);
 	padding: 1rem;
 	border-radius: 8px;
