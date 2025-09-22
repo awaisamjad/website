@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Giscus from "../../components/Giscus.astro";
 import { getCollection } from "astro:content";
 
 const { slug } = Astro.params;
@@ -30,4 +31,5 @@ export async function getStaticPaths() {
 		<p><strong>Last Modified:</strong> {post.data.modifiedAt}</p>
 		<Content />
 	</article>
+	<Giscus />
 </BaseLayout>

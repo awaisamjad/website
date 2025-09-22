@@ -1,0 +1,35 @@
+---
+const {
+	repo = "awaisamjad/website",
+	repoId = "R_kgDOP0wwQw",
+	category = "Announcements",
+	categoryId = "DIC_kwDOP0wwQ84Cvwox",
+	strict = "0",
+	mapping = "pathname",
+	reactionsEnabled = "1",
+	emitMetadata = "0",
+	inputPosition = "top",
+	theme = "gruvbox_dark",
+	lang = "en",
+	loading = "lazy",
+} = Astro.props;
+---
+
+<div class="giscus">
+	<script
+		src="https://giscus.app/client.js"
+		data-repo={repo}
+		data-repo-id={repoId}
+		data-category={category}
+		data-category-id={categoryId}
+		data-strict={strict}
+		data-mapping={mapping}
+		data-reactions-enabled={reactionsEnabled}
+		data-emit-metadata={emitMetadata}
+		data-input-position={inputPosition}
+		data-theme={theme}
+		data-lang={lang}
+		data-loading={loading}
+		crossorigin="anonymous"
+		async></script>
+</div>
