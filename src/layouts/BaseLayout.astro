@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import { SEO } from "astro-seo";
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
@@ -8,19 +10,34 @@ import "../styles/global.css";
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" href="/favicon.ico" />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+
+		<!-- Todo add meta one dont use SEO component -->
+		<meta />
+		<SEO
+			title="{title}"
+			description="{description}"
+			openGraph={{
+				basic: {
+					title: "{title}",
+					type: "article",
+					image: "/favicon.ico",
+				},
+			}}
+			extend={{
+				link: [{ rel: "icon", href: "/favicon.ico" }],
+			}}
+		/>
 	</head>
 	<body>
 		<header>
 			<nav>
 				<div class="nav-container" aria-label="Main Navigation">
 					<div class="nav-links">
-						<a href="/" class="nav-link" data-navigo>Home</a>
-						<a href="/blog" class="nav-link" data-navigo>Blog</a>
-						<a href="/projects" class="nav-link" data-navigo
-							>Projects</a
-						>
-						<a href="/work" class="nav-link" data-navigo>Work</a>
+						<a href="/" class="nav-link">Home</a>
+						<a href="/blog" class="nav-link">Blog</a>
+						<a href="/projects" class="nav-link">Projects</a>
+						<a href="/work" class="nav-link">Work</a>
 					</div>
 					<aside class="social-links" aria-label="Social Media">
 						<a
