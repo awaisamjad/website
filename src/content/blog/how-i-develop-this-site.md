@@ -1,17 +1,18 @@
 ---
-title: How I used to make this site
+title: How I develop this site
 description: An overview of the process and technologies I use to create, build and host my website
 tags:
     - Nginx
+    - Astro
     - SSG
     - Hetzner
 readingTime: 5
 createdAt: 15 July 2025
-modifiedAt: 12 September 2025
+modifiedAt: 17 October 2025
 ---
-My deployment stack for this site has changed a lot. I started with a Hugo site on Netlify, then switched to Astro because its documentation felt clearer. After that, I experimented with building my own Static Site Generator (SSG), before eventually returning back to Astro which I hope will remain long-term choice.
+My deployment stack for this site has changed a lot. I first started with a Hugo site deployed on Netlify but then switched to Astro because its documentation felt clearer. After that, I experimented with building my own Static Site Generator (SSG), before eventually returning back to Astro which I hope will remain long-term choice.
 
-At first, both Hugo and Astro felt like overkill for a simple site, so I tried going back to plain HTML, CSS, and JavaScript . But I quickly found myself missing the conveniences that frameworks provide (not having to write the same navbar HTML on **EVERY** page for example), which led me to explore lightweight SSG's. While researching, I thought to myself that a lot of what I was looking for wasn't that hard to build myself so thats what I ended up doing. I decided to build my own SSG. The goal was to keep it lightweight, relying on a `justfile` to run commands and existing tools like `pandoc` and `rsync` to handle building and deployment.
+At first, both Hugo and Astro felt like overkill for a simple site, so I tried going back to sticking with just HTML, CSS, and JavaScript. But I quickly found myself missing the conveniences that frameworks provide (e.g not having to write the same navbar markup for **EVERY** page), which led me to explore lightweight SSG's. While researching, I thought to myself that a lot of what I was looking for wasn't that hard to build myself so thats what I ended up doing so I decided to experiment building my own SSG. The goal was to keep it lightweight, relying on a single `justfile` to run commands and utilise existing tools like `pandoc` and `rsync` to handle building and deployment.
 
 <details>
 <summary>View the code</summary>
@@ -123,17 +124,15 @@ deploy: build
 ```
 </details>
 
+However, adding new features to my custom SSG quickly became tiresome. Often something would break, and the directory structure constantly needed reworking. While I learned a lot from the process, the project wasn’t sustainable in the long run (Neither was my mental). That’s when I decided to move back to `Astro`, but now I carry forward many of the lessons and approaches I had picked up along the way, especially how I deploy. 
 
-
-However, adding new features to my custom SSG quickly became tiresome. Often something would break, and the directory structure constantly needed reworking. While I learned a lot from the process, the project wasn’t sustainable in the long run. That’s when I decided to move back to `Astro`, but now I carry forward many of the lessons and approaches I had picked up along the way, especially how I deploy. 
-
-On my server, I keep a website folder that holds the live site. Whenever I build locally, I upload the new build and replace the contents of that folder. Initially, this meant deleting everything and copying over the fresh files, but in practice many files (like `styles.css`) don’t change often, or only change slightly. To optimise this, I now use `rsync`, which only updates the files that actually need it which makes deployments faster and more efficient.
+On my server, I keep a website folder that holds the site in `/var/www/html/awais.me/`. Whenever I build locally, I upload the new build and replace the contents of that folder. Initially, this meant deleting everything and copying over the fresh files, but in practice many files (like `styles.css`) don’t change often, or only change slightly. To optimise this, I now use `rsync`, which only updates the files that actually need it, making deployments faster, convenient and efficient.
 
 ```bash
 rsync -azP --delete dist/ awais@MY_SERVER_IP:/home/awais/website
 ```
 
-I then use `nginx` as my http server which serves the website
+For my http server, I use `nginx` as it has great documentation and is industry standard. 
 
 <!-- For my main site (awais.me) I use `nginx` as my http server for its stability however you can also view (custom.awais.me) to view the site served by my own custom built server [Volk](/projects/volk). It's basic but functional, and I plan to improve it over time. -->
 <!---->
