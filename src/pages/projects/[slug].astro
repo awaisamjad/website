@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 	const posts = await getCollection("projects");
 
 	return posts.map((post) => ({
-		params: { slug: post.slug }, // 👈 this slug comes from filename
+		params: { slug: post.slug }, // this slug comes from filename
 		props: { post }, // pass the post as a prop
 	}));
 }
