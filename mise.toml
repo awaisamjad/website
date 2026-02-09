@@ -1,3 +1,10 @@
 [tools]
-astro = "latest"
 bun = "latest"
+
+[tasks.build]
+description = "Build frontend"
+run = "bun run build"
+
+[tasks.sync]
+description = "Rsync to server"
+run = "rsync -azP --delete dist/ awais@{{ server_ip }}:/var/www/awais.me/html/ && rsync -azP --delete dist/ awais@{{ server_ip }}:/var/www/volk.awais.me/html/"

@@ -1,16 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-	--color-primary: #dfd0b8;
-	--color-secondary: #64748b;
-	--color-accent: #f59e0b;
-	--color-text: #e2e8f0;
-	--color-text-light: #475569;
-	--color-bg: #222831;
-	--color-bg-secondary: #948979;
-	--color-border: #f59e0b;
-}
-
 :root {
 	/* Updated blog-friendly color palette */
 	--primary-color: #dfd0b8;
@@ -25,11 +14,6 @@
 	--shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
 	--nav-height: 70px;
 }
-
-/* * { */
-/* 	/* box-sizing: border-box; */
-*/
-/* } */
 
 /* Mobile-first base styles */
 body {
@@ -51,7 +35,6 @@ body {
 main {
 	max-width: 760px;
 	padding: 2rem 2rem 2rem 2rem;
-	/* flex: 1; */
 	margin: 0 auto;
 	min-height: calc(100vh - var(--nav-height));
 }
@@ -93,19 +76,17 @@ details[open] summary::after {
 }
 
 /* Animate the content inside */
-/* details>*:not(summary) { */
-/* 	max-height: 0; */
-/* 	overflow: hidden; */
-/* 	transition: max-height 0.4s ease, opacity 0.4s ease; */
-/* 	opacity: 0; */
-/* } */
+details>*:not(summary) {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.4s ease, opacity 0.4s ease;
+	opacity: 0;
+}
 
-/* details[open]>*:not(summary) { */
-/* 	max-height: 500px; */
-/* 	/* big enough to fit content */
-*/
-/* 	opacity: 1; */
-/* } */
+details[open]>*:not(summary) {
+	max-height: 500px;
+	opacity: 1;
+}
 
 .work-meta {
 	background: var(--bg-secondary);
@@ -553,28 +534,5 @@ th {
 	body {
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-	}
-}
-
-/* Print styles */
-@media print {
-	nav {
-		display: none;
-	}
-
-	body {
-		padding-top: 0;
-		color: black;
-		background: white;
-	}
-
-	main {
-		max-width: none;
-		padding: 0;
-	}
-
-	a {
-		color: black;
-		text-decoration: underline;
 	}
 }

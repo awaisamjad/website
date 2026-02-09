@@ -1,33 +1,36 @@
 ---
 import "../styles/global.css";
-import { SEO } from "astro-seo";
-const { title, description } = Astro.props;
+const { title, description,canonicalPath = Astro.url.pathname } = Astro.props;
+// TODO
+// const site : string = "https://awais.me"
+// const canonical = new URL(canonicalPath, site.url).toString();
+//
+const robots = "index,follow"
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" href="/favicon.ico" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content={description} />
+        <!-- <link rel="canonical" href={canonical} /> -->
+        <meta name="robots" content={robots} />
+        
+        <!-- <meta name="theme-color" content={themeColor} /> -->
+        
+        <!-- <meta property="og:type" content={computedOgType} /> -->
+        <meta property="og:title" content="website" />
+        <meta property="og:description" content={description} />
+        <!-- <meta property="og:url" content={canonical} /> -->
+        <!-- {hasOg && <meta property="og:image" content={ogImage} />} -->
+        <!-- {hasOg && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />} -->
+        <meta property="og:site_name" content="Awais Amjad" />
+        <meta property="og:locale" content="en" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<title>{title}</title>
-
-		<!-- Todo add meta one dont use SEO component -->
-		<meta />
-		<SEO
-			title="{title}"
-			description="{description}"
-			openGraph={{
-				basic: {
-					title: "{title}",
-					type: "article",
-					image: "/favicon.ico",
-				},
-			}}
-			extend={{
-				link: [{ rel: "icon", href: "/favicon.ico" }],
-			}}
-		/>
 	</head>
 	<body>
 		<header>
