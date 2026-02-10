@@ -6,8 +6,8 @@ tags:
     - JS
     - Strapi
 company: ACUMENT Group
-startDate: 30 May 2024
-endDate: 05 Sep 2024
+startDate: 2024-05-10
+endDate: 2024-09-05
 location: London
 liveUrl: https://acument.group
 ---

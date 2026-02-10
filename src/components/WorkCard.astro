@@ -4,6 +4,19 @@ import type { CollectionEntry } from "astro:content";
 const { work } = Astro.props as {
 	work: CollectionEntry<"work">;
 };
+
+function prettyDate(date: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+const start = prettyDate(work.data.startDate);
+
+const end = work.data.endDate
+  ? prettyDate(work.data.endDate)
+  : "Current";
 ---
 
 <section
@@ -12,8 +25,7 @@ const { work } = Astro.props as {
 	<h1>
 		{work.data.title} @ {work.data.company}
 	</h1>
-
-	<h4>{work.data.startDate} - {work.data.endDate}</h4>
+    <h4>{start} – {end}</h4>
 
 	{
 		work.data.tags && (

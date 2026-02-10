@@ -10,7 +10,9 @@ readingTime: 5
 createdAt: 15 July 2025
 modifiedAt: 17 October 2025
 ---
-My deployment stack for this site has changed a lot. I first started with a Hugo site deployed on Netlify but then switched to Astro because its documentation felt clearer. After that, I experimented with building my own Static Site Generator (SSG), before eventually returning back to Astro which I hope will remain long-term choice.
+_**TLDR** I use astro_
+
+My deployment stack for this site has changed a lot. I first started with a Hugo site deployed on Netlify but then switched to Astro because documentation felt clearer. After that, I experimented with building my own Static Site Generator (SSG), before eventually returning back to Astro which I hope will remain long-term choice.
 
 At first, both Hugo and Astro felt like overkill for a simple site, so I tried going back to sticking with just HTML, CSS, and JavaScript. But I quickly found myself missing the conveniences that frameworks provide (e.g not having to write the same navbar markup for **EVERY** page), which led me to explore lightweight SSG's. While researching, I thought to myself that a lot of what I was looking for wasn't that hard to build myself so thats what I ended up doing so I decided to experiment building my own SSG. The goal was to keep it lightweight, relying on a single `justfile` to run commands and utilise existing tools like `pandoc` and `rsync` to handle building and deployment.
 

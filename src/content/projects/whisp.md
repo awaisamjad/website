@@ -8,4 +8,4 @@ tags:
 status: Dropped 
 ---
 
-A twitter clone that I've stopped working on. Will pick up and improve one day
+A twitter clone that I've stopped working on.

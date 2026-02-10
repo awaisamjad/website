@@ -4,11 +4,14 @@ import WorkCard from "../../components/WorkCard.astro";
 import { getCollection } from "astro:content";
 
 const posts = await getCollection("work");
+const sortedPosts = posts.sort(
+  (a, b) => b.data.startDate.getTime() - a.data.startDate.getTime()
+);
 ---
 
 <BaseLayout title="Work">
 	<h1>Work</h1>
 	<ul>
-		{posts.map((post) => <WorkCard work={post} />)}
+		{sortedPosts.map((post) => <WorkCard work={post} />)}
 	</ul>
 </BaseLayout>

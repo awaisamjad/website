@@ -15,6 +15,22 @@
 	--nav-height: 70px;
 }
 
+@theme {
+	/* Updated blog-friendly color palette */
+	--color-primary: #dfd0b8;
+	--color-secondary: #64748b;
+	--color-accent: #f59e0b;
+	--text-color: #e2e8f0;
+	--text-light: #475569;
+	--color-bg: #222831;
+	--color-bg-secondary: #948979;
+	--color-border: #f59e0b;
+	--shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	--shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+	--nav-height: 70px;
+}
+
+
 /* Mobile-first base styles */
 body {
 	height: 100%;
@@ -117,8 +133,6 @@ details[open]>*:not(summary) {
 	color: var(--accent-color);
 }
 
-
-/* Navigation styles */
 nav {
 	background-color: var(--bg-secondary);
 	position: fixed;
@@ -131,14 +145,7 @@ nav {
 }
 
 .nav-container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 0 1rem;
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-wrap: wrap;
+  @apply max-w-[1200px] mx-auto px-4 h-full flex justify-between items-center flex-wrap;
 }
 
 .nav-links {
