@@ -1,50 +1,26 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+import { SITE } from "@/config";
 
-function formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    };
-
-    return date.toLocaleDateString("en-GB", options);
-}
+export const BLOG_PATH = "src/data/blog";
 
 const blog = defineCollection({
-    schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        tags: z.string().array().optional(),
-        readingTime: z.number().optional(),
-        relatedPosts: z.string().array().optional(),
-        createdAt: z.string().transform((str) => formatDate(new Date(str))),
-        modifiedAt: z.string().transform((str) => formatDate(new Date(str)))
+  loader: glob({ pattern: "**/[^_]*.md", base: `./${BLOG_PATH}` }),
+  schema: ({ image }) =>
+    z.object({
+      author: z.string().default(SITE.author),
+      pubDatetime: z.date(),
+      modDatetime: z.date().optional().nullable(),
+      title: z.string(),
+      featured: z.boolean().optional(),
+      draft: z.boolean().optional(),
+      tags: z.array(z.string()).default(["others"]),
+      ogImage: image().or(z.string()).optional(),
+      description: z.string(),
+      canonicalURL: z.string().optional(),
+      hideEditPost: z.boolean().optional(),
+      timezone: z.string().optional(),
     }),
 });
 
-const projects = defineCollection({
-    schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        tags: z.string().array().optional(),
-        repo: z.string().url().optional(),
-        liveUrl: z.string().url().optional(),
-        status: z.enum(["Dropped", "Planned", "In-Progress", "Completed"])
-    }),
-});
-
-
-const work = defineCollection({
-    schema: z.object({
-        title: z.string(),
-        company: z.string().optional(),
-        tags: z.string().array().optional(),
-        startDate: z.coerce.date(),
-        endDate: z.coerce.date().optional(),
-        location: z.string().optional(),
-        liveUrl: z.string().url().optional(),
-    }),
-});
-
-export const collections = { blog, projects, work };
-
+export const collections = { blog };
