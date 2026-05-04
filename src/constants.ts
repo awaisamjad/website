@@ -19,8 +19,8 @@ interface Social {
 export const SOCIALS: Social[] = [
   {
     name: "Codeberg",
-    href: "https://codeberg.org/awais/astro-paper",
-    linkTitle: `${SITE.title} on GitHub`,
+    href: "https://codeberg.org/awais",
+    linkTitle: `${SITE.title} on Codeberg`,
     icon: IconGitHub,
   },
   {
