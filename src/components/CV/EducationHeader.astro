@@ -1,0 +1,66 @@
+---
+type Props = {
+  degree: string;
+  organization: string;
+  start: string;
+  end?: string;
+  grade: string;
+};
+
+const { degree, organization, start, end, grade } = Astro.props;
+---
+
+<article class="entry">
+  <div class="row">
+      <h3>{organization}</h3>
+      <span class="dates text-slate-200">{start}{end && <> &mdash; {end}</>}</span>
+  </div>
+  <div class="row">
+      <p class="degree italic">{degree} - {grade} </p>
+  </div>
+  <div class="details"><slot /></div>
+</article>
+
+<style>
+  .entry {
+    /* Computer Modern look, with sensible fallbacks */
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .title {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 700;
+  }
+
+  .dates,
+  .org {
+    font-weight: 400;
+  }
+
+  .details:not(:empty) {
+    margin-top: 0.25rem;
+  }
+
+  /* Stack on narrow screens so nothing collides */
+  @media (max-width: 480px) {
+    .row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  @media print {
+    .entry {
+      break-inside: avoid;
+    }
+  }
+</style>

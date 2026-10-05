@@ -1,0 +1,36 @@
+---
+import { getEntry, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import config from "@/config";
+
+const cv = await getEntry("pages", "cv");
+
+if (!cv) {
+  throw new Error(
+    "Missing content entry: `cv.md` or `cv.mdx` in `src/content/pages/`"
+  );
+}
+
+const { Content } = await render(cv);
+---
+
+<Layout
+  title={`${cv.data.title} | ${config.site.title}`}
+  description={cv.data.description}
+  ogImage={cv.data.ogImage}
+  canonicalURL={cv.data.canonicalURL}
+>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={cv.data.title} class="app-prose">
+    <Content />
+  </Main>
+
+  <Footer />
+</Layout>

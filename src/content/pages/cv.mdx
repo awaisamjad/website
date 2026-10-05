@@ -1,0 +1,83 @@
+---
+title: CV
+description: Awais Amjad's CV
+---
+
+import WorkHeader from "../../components/CV/WorkHeader.astro"
+import ProjectHeader from "../../components/CV/ProjectHeader.astro"
+import EducationHeader from "../../components/CV/EducationHeader.astro"
+import ResponsiveTable from '@/components/ResponsiveTable.astro';
+
+## Table of contents
+
+## Work Experience
+<WorkHeader
+        title="Graduate Digital Analyst"
+        organization="PA Consulting"
+        location="London, UK"
+        start="October 2025"
+        end="October 2026"
+        />
+
+ _Energy and Utilities Platform_
+ - Engineered a centralized data intelligence platform aggregating filings and critical data from multiple US Energy and Utility government websites, saving analysts weeks of time
+ - Orchestrated the end-to-end data pipeline using Prefect (scheduled scraping/extraction) and hosted on GCP
+ - Integrated advanced Retrieval-Augmented Generation (RAG) functionality, allowing analysts to perform semantic searches and extract key insights from unstructured documents
+ - Developed the full-stack solution using Django, containerized via Docker
+ - Employed both robust traditional software development and new AI engineering practices utilising Claude, GPT and Copilot
+
+ _Department for Transport - DTRO Service_
+ - Conducted exploratory data analysis on large, complex JSON datasets using Python (Pandas) and identified critical redundancies in the schema which helped optimize data storage efficiency by 90% in certain cases
+ - Translated complex technical findings into clear, actionable insights and presented them to non-technical clients
+ - Implemented the agreed changes, refactored core backend functionalities and increased test coverage within a .NET, PostgreSQL, and GCP ecosystem
+ - Eliminated 5% of technical debt by removing dead code and refactoring old systems
+ - Streamlined the development life-cycle by configuring Docker development pipelines, authoring comprehensive technical documentation, and reducing newcomer onboarding time by 3 days
+
+_Dell_
+- Drove a critical product improvement initiative for Dell by analyzing diverse datasets to determine optimal laptop keyboard design parameters
+- Engineered a robust, unified data schema to successfully integrate three disparate data streams: quantitative Force Gauge metrics, qualitative Human User Feedback, and Audio analysis
+- Developed a comprehensive, weighted scoring model that objectively quantified keyboard performance, enabling data-driven recommendations for design iteration
+- Delivered actionable findings and prioritized design recommendations to R&D stakeholders, directly supporting the decision to finalize the next-generation keyboard design
+
+_Nordson Technical Bid_
+- Assessed the architecture of a legacy system currently utilizing five separate Windows applications, identifying critical pain points and establishing requirements for a modern, embedded control platform
+- Developed technical design drafts and comparative analyses of multiple tech stacks (e.g., embedded OS, frameworks) to ensure the proposed application meets high-performance and client-mandated functional requirements
+- Drove the transition planning from fragmented legacy code to a unified embedded application, managing technical risks and defining scope limitations
+
+<WorkHeader
+  title="Software Engineer"
+  location="London UK (Remote)"
+  organization="Acument Group"
+  start="May 2024"
+  end="September 2024"
+  />
+
+- Rewrote company website using HTML, SCSS, JavaScript, leading to faster page loads, improved optimizations and a 40% traffic increase and improved user experience.
+- Collaborated with a UX designer, Product Manager, and developers in weekly remote sprints to deliver the project on schedule.
+- Deployed a Strapi CMS for easy and efficient content management.
+- Used Git and GitHub for version control and streamlined deployments to Vercel.
+- Authored comprehensive documentation for project specifications and dependencies using Google Docs.
+
+## Projects
+
+<ProjectHeader
+    name="Volk"
+    url="codeberg.org/awais/volk"
+      />
+- Developed a lightweight, cross-platform HTTP file server in Go that serves static files with sane defaults and optional TOML configuration
+
+- Support for port configuration, read timeouts, document root paths, and logging settings, enabling flexible server deployment options
+
+- Built a robust HTTP request/response handling system with proper status code support and content-type detection using MIME types for efficient file serving
+
+- Designed modular architecture using Go modules and clean package structure with separate components for configuration, HTTP handling, and command-line interfaces for maintainability and scalability
+
+## Education
+
+<EducationHeader
+    degree="Design, Innovation and Creative Engineering (Hons)"
+    organization="Queen Mary University of London"
+    grade="First Class"
+    start="September 2021"
+    end="May 2024"
+    />
