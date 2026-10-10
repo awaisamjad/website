@@ -1,0 +1,3 @@
+[tasks]
+build = "bun run build"
+rsync = "rsync -av --delete dist/ awais@awais.me:/home/awais/awais.me"
